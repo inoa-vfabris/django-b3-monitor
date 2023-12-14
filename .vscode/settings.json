@@ -1,0 +1,47 @@
+{
+  "python.analysis.typeCheckingMode": "off",
+  "python.languageServer": "Pylance",
+  "mypy-type-checker.args": [
+    "--follow-imports=silent",
+    "--ignore-missing-imports",
+    "--show-column-numbers",
+    "--allow-redefinition",
+    "--no-pretty",
+    "--exclude='.py$'"
+  ],
+  "python.formatting.provider": "none",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "black-formatter.args": [
+    "--config",
+    "pyproject.toml"
+  ],
+  "isort.args": [
+    "--profile",
+    "black"
+  ],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/django.log": true,
+    ".coverage": true,
+    ".pdm.toml": true,
+    "**/*.mo": true,
+    ".tox/": true,
+    "**/.mypy_cache": true,
+    ".pytest_cache": true,
+    "letsencrypt": true,
+    "htmlcov": true,
+    "celerybeat-schedule": true,
+    ".pdm-python": true,
+  },
+}
