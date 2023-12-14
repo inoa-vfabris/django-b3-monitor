@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "app.apps.RootAppConfig",
+    "users.apps.UsersConfig",
 ]
 
 
@@ -232,7 +233,11 @@ JAZZMIN_SETTINGS = {
     "show_sidebar": True,
     "navigation_expanded": True,
     # https://fontawesome.com/v5/search?m=free
-    "icons": {},
+    "icons": {
+        "users": "fas fa-users-cog",
+        "users.user": "fas fa-user",
+        "users.Group": "fas fa-users",
+    },
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
     "show_ui_builder": False,
