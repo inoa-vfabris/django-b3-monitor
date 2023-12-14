@@ -1,0 +1,17 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=827846 to learn about workspace recommendations.
+  // Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
+  "recommendations": [
+    "ms-python.black-formatter",
+    "batisteo.vscode-django",
+    "mrorz.language-gettext",
+    "ms-python.isort",
+    "ms-python.mypy-type-checker",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "gruntfuggly.todo-tree",
+    "foxundermoon.shell-format",
+    "shd101wyy.markdown-preview-enhanced"
+  ],
+  "unwantedRecommendations": []
+}
