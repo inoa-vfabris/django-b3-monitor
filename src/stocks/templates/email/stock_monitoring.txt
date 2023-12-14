@@ -1,7 +1,7 @@
 {% load static %}
-Este e um aviso do seu monitor de ativos da B3!
-O ativo monitorado de codigo {{code}}teve seu limite {{limit_type}} cruzado! Sugerimos assim a {{action}} deste ativo!
+Este é um aviso do seu monitor de ativos da B3!
+O ativo monitorado de código {{code}}teve seu limite {{limit_type}} cruzado! Sugerimos assim a {{action}} deste ativo!
 Seguem os detalhes:
-Preco do ativo: {{price}}
+Preço do ativo: {{price}}
 Limite ultrapassado: {{limit}}
-Data em que o limite foi ultrapassado: {{date}}
+Horário em que o limite foi ultrapassado: {{date}}

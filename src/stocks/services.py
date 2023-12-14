@@ -1,3 +1,4 @@
+import zoneinfo
 from datetime import datetime
 from decimal import Decimal
 
@@ -14,7 +15,6 @@ from . import models
 
 
 def stock_limit_monitor(obj: models.MonitoredStock):
-    print("checking price")
     stock = obj.B3_stock
     url = "https://www.dadosdemercado.com.br/bolsa/acoes"
     response = requests.get(url)
@@ -31,16 +31,34 @@ def stock_limit_monitor(obj: models.MonitoredStock):
     if obj.superior_limit < price:
         limit_type = "superior"
         action = "venda"
+        limit = obj.superior_limit
     if obj.inferior_limit > price:
         limit_type = "inferior"
         action = "compra"
-    else:
-        return
-    send_monitoring_email(user=obj.user, stock_code=stock.code, limit_type=limit_type, action=action, price=price, limit=obj.limit, date=datetime.now())
-        
+        limit = obj.inferior_limit
+    if obj.inferior_limit > price or obj.superior_limit < price:
+        send_monitoring_email(
+            user=obj.user,
+            stock_code=stock.code,
+            limit_type=limit_type,
+            action=action,
+            price=price,
+            limit=limit,
+            date=datetime.now()
+            .astimezone(zoneinfo.ZoneInfo("America/Sao_Paulo"))
+            .strftime("%H:%M:%S"),
+        )
 
 
-def send_monitoring_email(user: User, stock_code:str, limit_type:str, action:str,  price: Decimal, limit: Decimal, date:datetime):
+def send_monitoring_email(
+    user: User,
+    stock_code: str,
+    limit_type: str,
+    action: str,
+    price: Decimal,
+    limit: Decimal,
+    date: str,
+):
     context = {
         "code": stock_code,
         "limit_type": limit_type,
@@ -53,6 +71,6 @@ def send_monitoring_email(user: User, stock_code:str, limit_type:str, action:str
         subject=_("Alert to your stock monitoring"),
         message=render_to_string("email/stock_monitoring.txt", context=context),
         from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=user.email,
+        recipient_list=(user.email,),
         html_message=render_to_string("email/stock_monitoring.html", context=context),
     )

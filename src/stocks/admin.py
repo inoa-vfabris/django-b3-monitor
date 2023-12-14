@@ -45,7 +45,7 @@ class MonitoredStockAdmin(admin.ModelAdmin):
     exclude = ("user",)
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[models.MonitoredStock]:
-        if request.user.role==Role.INVESTOR:
+        if request.user.role == Role.INVESTOR:
             return super().get_queryset(request).filter(user=request.user)
         return super().get_queryset(request)
 
@@ -67,12 +67,8 @@ class MonitoredStockAdmin(admin.ModelAdmin):
     def has_add_permission(self, request: HttpRequest) -> bool:
         return super().has_add_permission(request) and request.user.role == Role.INVESTOR
 
-    def has_delete_permission(
-        self, request: HttpRequest, obj=None
-    ) -> bool:
+    def has_delete_permission(self, request: HttpRequest, obj=None) -> bool:
         return False
 
-    def has_change_permission(
-        self, request: HttpRequest, obj=None
-    ) -> bool:
+    def has_change_permission(self, request: HttpRequest, obj=None) -> bool:
         return False
