@@ -69,9 +69,10 @@ AUTH_USER_MODEL = "users.User"
 
 # Application definition
 INSTALLED_APPS = [
-    "django_extensions",
+    "app.apps.RootAppConfig",
     "jazzmin",
-    "django.contrib.admin",
+    "app.apps.MyAdminConfig",
+    "django_extensions",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -81,7 +82,6 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rest_framework.authtoken",
     "corsheaders",
-    "app.apps.RootAppConfig",
     "users.apps.UsersConfig",
     "stocks.apps.StocksConfig",
 ]
