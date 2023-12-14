@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <body>
+    <h3>Este e um aviso do seu monitor de ativos da B3!</h3>
+    <p>O ativo monitorado de codigo {{code}} teve seu limite {{limit_type}} cruzado! Sugerimos assim a <strong>{{action}}</strong> deste ativo!</p>
+    <p>Seguem os detalhes:</p>
+    <p><strong>Preco do ativo:</strong> {{ price }}</p>
+    <p><strong>Limite ultrapassado:</strong> {{ limit }}</p>
+    <p><strong>Data em que o limite foi ultrapassado:</strong> {{ date }}</p>
+    <p></p>
+  </body>
+</html>
