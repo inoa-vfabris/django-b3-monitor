@@ -1,0 +1,76 @@
+version: "3.3"
+services:
+  redis:
+    image: "redis"
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    command: redis-server
+    volumes:
+      - cache:/data
+
+  django: &django
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - ./src:/app/src
+      - ./storage/static:/app/storage/static
+      - ./storage/media:/app/storage/media
+      - translations:/app/locale
+    ports:
+      - ${DJANGO_HTTP_PORT:-8000}:${DJANGO_HTTP_PORT:-8000}
+    env_file:
+      - .env
+
+    command: python3 manage.py runserver_plus 0.0.0.0:${DJANGO_HTTP_PORT:-8000}
+    depends_on:
+      redis:
+        condition: service_started
+      mailpit:
+        condition: service_started
+      db_migration:
+        condition: service_completed_successfully
+
+    environment:
+      - SQL_HOST=db
+      - REDIS_HOST=redis
+
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${SQL_PORT}:${SQL_PORT}"
+    command: ["postgres", "-c", "log_statement=none", "-p", "${SQL_PORT}"]
+    environment:
+      POSTGRES_PASSWORD: ${SQL_PASSWORD}
+      POSTGRES_USER: ${SQL_USER}
+      POSTGRES_DB: ${SQL_DATABASE}
+
+  db_migration:
+    <<: *django
+    command: python manage.py migrate
+    entrypoint: ["sh", "before_migrate.sh"]
+    ports: []
+    depends_on: []
+
+  celery-beat:
+    <<: *django
+    command: python -m celery -A app beat
+    ports: []
+
+  celery-worker:
+    <<: *django
+    command: python -m celery -A app worker -P solo --concurrency 1 --events -l ${CELERY_WORKER_LOGGING_LEVEL:-INFO}
+    ports: []
+
+  mailpit:
+    image: axllent/mailpit:v1.8
+    ports:
+      - "8025:8025"
+
+volumes:
+  postgres_data:
+  mediafiles:
+  cache:
+  translations:
