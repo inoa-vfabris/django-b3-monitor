@@ -9,7 +9,7 @@ def user_set_permissions(user: User):
     if user.role == Role.ADMIN:
         user.is_superuser = True
     if user.role == Role.INVESTOR:
-        content_types = ContentType.objects.filter(app_label="stocks")
+        content_types = ContentType.objects.filter(app_label__in=["stocks", "users"])
         permissions = Permission.objects.filter(content_type__in=content_types)
         user.user_permissions.set(objs=permissions)
     user.is_staff = True
