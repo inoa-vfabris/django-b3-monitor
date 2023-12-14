@@ -1,6 +1,7 @@
 import os
 
 from celery import Celery
+from celery.schedules import crontab
 from django.conf import settings
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings.conf")
@@ -23,7 +24,20 @@ CELERY_CONFIG = {
     "task_always_eager": settings.CELERY_ALWAYS_EAGER,
     "broker_url": settings.BROKER_URL,
     "broker_connection_retry_on_startup": True,
-    "beat_schedule": {},
+    "beat_schedule": {
+        "populate_b3_stocks_dados_mercado": {
+            "task": "stocks.tasks.populate_b3_stocks_dados_mercado",
+            "args": (),
+            # https://crontab.guru/
+            "schedule": crontab(
+                hour=4,  # UTC (00h on America/Sao_Paulo)
+                minute=0,
+                day_of_week="mon-fri",
+            ),
+        }
+    },
 }
+
+app.autodiscover_tasks(["stocks"])
 
 app.conf.update(**CELERY_CONFIG)
