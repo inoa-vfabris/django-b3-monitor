@@ -73,7 +73,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     ]
 
     def __str__(self):
-        return f"{self.id}-{self.email}"
+        return f"{self.email}"
 
     def get_short_name(self):
         return self.full_name.split(" ")[0]

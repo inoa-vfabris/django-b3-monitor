@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "app.apps.RootAppConfig",
     "users.apps.UsersConfig",
+    "stocks.apps.StocksConfig",
 ]
 
 
@@ -237,6 +238,8 @@ JAZZMIN_SETTINGS = {
         "users": "fas fa-users-cog",
         "users.user": "fas fa-user",
         "users.Group": "fas fa-users",
+        "stocks.B3Stock": "fas fa-chart-line",
+        "stocks.MonitoredStock": "fas fa-project-diagram",
     },
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
