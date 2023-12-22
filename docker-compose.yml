@@ -21,8 +21,10 @@ services:
       - ${DJANGO_HTTP_PORT:-8000}:${DJANGO_HTTP_PORT:-8000}
     env_file:
       - .env
-
-    command: python3 manage.py runserver_plus 0.0.0.0:${DJANGO_HTTP_PORT:-8000}
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+             python manage.py compilemessages -v 0 &&
+             python3 manage.py runserver_plus 0.0.0.0:${DJANGO_HTTP_PORT:-8000}"
     depends_on:
       redis:
         condition: service_started
@@ -50,9 +52,10 @@ services:
   db_migration:
     <<: *django
     command: python manage.py migrate
-    entrypoint: ["sh", "before_migrate.sh"]
     ports: []
-    depends_on: []
+    depends_on:
+      db:
+        condition: service_started
 
   celery-beat:
     <<: *django

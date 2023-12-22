@@ -21,4 +21,4 @@ WORKDIR /app
 ENV PYTHONPATH=/app/src:/pkgs/.venv/lib/python3.11/site-packages
 COPY src /app/src
 COPY locale /app/locale
-COPY manage.py gunicorn.conf.py scripts/before_migrate.sh /app/
+COPY manage.py gunicorn.conf.py /app/
